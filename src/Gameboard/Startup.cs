@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Gameboard_DAL.Utils;
 
 namespace Gameboard
 {
@@ -16,8 +17,8 @@ namespace Gameboard
         {
             var builder = new ConfigurationBuilder()
                 .SetBasePath(env.ContentRootPath)
-                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
-                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
+                .AddJsonFile("appsettings.json", true, true)
+                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", true)
                 .AddEnvironmentVariables();
             Configuration = builder.Build();
         }
@@ -27,8 +28,13 @@ namespace Gameboard
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddOptions();
             // Add framework services.
             services.AddMvc();
+            // Add settings from configuration
+            services.Configure<DALSettings>(Configuration);
+            // add NoDb storages
+            services.AddDALServices();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
