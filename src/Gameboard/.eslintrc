@@ -1,0 +1,19 @@
+{
+    "extends": "eslint:recommended",
+    "plugins": ["angular"],
+    "exclude": [],
+    "parserOptions": {
+        "sourceType": "module",
+        "ecmaFeatures": {
+            "modules": true
+        }
+    },
+    "env": {
+        "browser": true
+    },
+    "globals": {
+        "angular": true,
+        "module": true,
+        "inject": true
+    }
+}
