@@ -247,4 +247,6 @@ src/Gameboard/wwwroot/js/*
 src/Gameboard/wwwroot/lib/*
 =======
 /**/wwwroot/lib/**/*
->>>>>>> gitignore updated
+src/Gameboard./
+src/Gameboard/wwwroot/js/
+>>>>>>> Removing bower and dotnet bundling.
