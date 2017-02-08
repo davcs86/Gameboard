@@ -241,3 +241,5 @@ ModelManifest.xml
 # FAKE - F# Make
 .fake/
 /**/wwwroot/lib/**/*
+src/Gameboard./
+src/Gameboard/wwwroot/js/
