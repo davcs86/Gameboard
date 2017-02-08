@@ -12,14 +12,26 @@ var webpackCB = function(cb) {
     };
 };
 
-gulp.task("default", function (callback) {
-    // run webpack
+gulp.task("build:min:eslint", function (callback) {
+    // run webpack w/ minify & w/ lint
     webpack(webpackConfig(true, true), webpackCB(callback));
+});
+
+gulp.task("build:nomin:eslint", function (callback) {
+    // run webpack w/o minify & w/ lint
     webpack(webpackConfig(false, true), webpackCB(callback));
 });
 
-gulp.task("no-lint", function (callback) {
-    // run webpack w/ linting
+gulp.task("build:min:noeslint", function (callback) {
+    // run webpack w/ minify & w/o lint
     webpack(webpackConfig(true, false), webpackCB(callback));
+});
+
+gulp.task("build:nomin:noeslint", function (callback) {
+    // run webpack w/o minify & w/o lint
     webpack(webpackConfig(false, false), webpackCB(callback));
 });
+
+gulp.task("default", ["default:lint"]);
+gulp.task("default:lint", ["build:min:eslint", "build:nomin:eslint"]);
+gulp.task("default:no-lint", ["build:min:noeslint", "build:nomin:noeslint"]);

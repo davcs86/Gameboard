@@ -249,4 +249,5 @@ src/Gameboard/wwwroot/lib/*
 /**/wwwroot/lib/**/*
 src/Gameboard./
 src/Gameboard/wwwroot/js/
->>>>>>> Removing bower and dotnet bundling.
+src/Gameboard/wwwroot/css/
+>>>>>>> .gitignore & minor changes to gulp tasks.
