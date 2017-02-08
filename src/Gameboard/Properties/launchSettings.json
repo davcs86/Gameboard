@@ -15,13 +15,14 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "Gameboard": {
-      "commandName": "Project",
-      "launchBrowser": true,
-      "launchUrl": "http://localhost:5000",
-      "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
-      }
+    "Kestrel": {
+        "commandName": "Project",
+        "commandLineArgs": "",
+        "launchBrowser": true,
+        "launchUrl": "http://localhost:10861",
+        "environmentVariables": {
+            "ASPNETCORE_ENVIRONMENT": "Development"
+        }
     }
   }
 }
