@@ -243,3 +243,4 @@ ModelManifest.xml
 /**/wwwroot/lib/**/*
 src/Gameboard./
 src/Gameboard/wwwroot/js/
+src/Gameboard/wwwroot/css/
