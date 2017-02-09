@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Gameboard_DAL.Models;
 using Microsoft.AspNetCore.Mvc;
 using Gameboard_DAL.Repositories;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 // For more information on enabling Web API for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -40,28 +41,32 @@ namespace Gameboard.Controllers.Api
             return Ok(company);
         }
 
-        // GET: api/companies/populate
-        [HttpGet("Populate")]
-        public async Task<IActionResult> Populate()
-        {
-            //if (!(await _companyRepository.Context.GetAll()).Any())
-            //{
-            await _companyRepository.Context.Create(new CompanyModel()
-            {
-                Name = "Company 1"
-            });
-            await _companyRepository.Context.Create(new CompanyModel()
-            {
-                Name = "Company 2"
-            });
-            //}
-            return Ok("Populated");
-        }
+        //// GET: api/companies/populate
+        //[HttpGet("Populate")]
+        //public async Task<IActionResult> Populate()
+        //{
+        //    //if (!(await _companyRepository.Context.GetAll()).Any())
+        //    //{
+        //    await _companyRepository.Context.Create(new CompanyModel()
+        //    {
+        //        Name = "Company 1"
+        //    });
+        //    await _companyRepository.Context.Create(new CompanyModel()
+        //    {
+        //        Name = "Company 2"
+        //    });
+        //    //}
+        //    return Ok("Populated");
+        //}
 
         // POST api/companies
         [HttpPost]
         public async Task<IActionResult> Post([FromBody]CompanyModel company)
         {
+            // force model validation
+            ModelState.Clear();
+            TryValidateModel(company);
+
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
@@ -78,6 +83,11 @@ namespace Gameboard.Controllers.Api
             {
                 return NotFound(id);
             }
+
+            // force model validation
+            ModelState.Clear();
+            TryValidateModel(company);
+
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
