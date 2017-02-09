@@ -60,6 +60,9 @@ class ProductsListController {
                     '<div class="ui-grid-cell-contents text-center"><a class="btn btn-xs btn-primary" title="Delete" ng-click="grid.appScope.deleteItem(row)"><i class="glyphicon glyphicon-remove"></i></a>&nbsp;&nbsp;<a class="btn btn-xs btn-primary" title="Edit" ng-click="grid.appScope.editItem(row)"><i class="glyphicon glyphicon-edit"></i></a></div>'
             },
             { name: "name", width: 300, sort: { direction: uiGridConstants.ASC }, enableHiding: true },
+            { name: "ageRestriction", width: 200, enableHiding: true, enableFiltering: false },
+            { name: "price_", width: 200, enableHiding: true, enableFiltering: false },
+            { name: "company", width: 250, enableHiding: true, enableFiltering: true },
             { name: "creationTime_", width: 200, enableHiding: true, enableFiltering: false },
             { name: "lastModified_", width: 200, enableHiding: true, enableFiltering: false }
         ];
@@ -81,6 +84,7 @@ class ProductsListController {
                     k.forEach((l) => {
                         o[l] = n[l];
                     });
+                    o["price_"] = "$ "+o["price"];
                     o["creationTime_"] = moment(o["creationTime"]).format("MMM DD YYYY, hh:mm:ss a");
                     o["lastModified_"] = moment(o["lastModified"]).format("MMM DD YYYY, hh:mm:ss a");
                     return o;

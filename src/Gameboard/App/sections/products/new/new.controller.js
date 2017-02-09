@@ -1,5 +1,7 @@
 ﻿"use strict";
 
+import {toSafeInteger} from "lodash";
+
 class ProductsNewController {
     constructor($state, $scope, uiGridConstants, $rootScope, ProductsService, SweetAlert) {
         "ngInject";
@@ -21,27 +23,46 @@ class ProductsNewController {
         vm.$scope.schema = {
             "type": "object",
             "properties": {
-                "Name": {
+                "name": {
                     "title": "Name",
                     "type": "string",
                     "minLength": 5,
                     "maxLength": 50,
                     "validationMessage": "Name can have between 5 and 50 characters, inclusive."
+                },
+                "price": {
+                    "title": "Price",
+                    "type": "string",
+                    "x-schema-form": {
+                        "type": "number"
+                    },
+                    "validationMessage": "Price is required."
                 }
             },
             "required": [
-                "Name"
+                "name",
+                "price"
             ]
         };
 
         vm.$scope.form = [
             {
-                "key": "Name"
+                "key": "name"
+            }, {
+                "key": "price",
+                validationMessage: {
+                    'wrongPrice': "Price must be between $ 1.00 and $ 1000.00, inclusive."
+                },
+                onChange: vm.$scope.validatePrice
             }
         ];
 
+        vm.$scope.validatePrice = function () {
+            var price = toNumber(vm.$scope.model.price);
+            vm.$scope.$broadcast("schemaForm.error.price", "wrongPrice", price >= 1.0 && price <= 1000.0);
+        }
+
         vm.$scope.model = {
-            Name: ""
         };
 
         vm.$scope.onSubmit = function(form) {
