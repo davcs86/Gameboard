@@ -22,4 +22,7 @@ import "bootstrap-sass";
 
 import "../assets/styles/vendor";
 
-import "angularjs-toaster";
+import "sweetalert";
+import "ng-sweet-alert";
+
+import "angular-ui-grid";

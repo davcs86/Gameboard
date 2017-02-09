@@ -8,8 +8,12 @@
             "modules": true
         }
     },
+    "rules": {
+        "no-console": 0
+    }, 
     "env": {
-        "browser": true
+        "browser": true,
+        "node": true
     },
     "globals": {
         "angular": true,

@@ -1,37 +1,33 @@
 ﻿"use strict";
 
-import * as Config from "./setup.config";
-import * as Run from "./setup.run";
+
+import Angular from "angular";
 import Collapse from "angular-ui-bootstrap/src/collapse";
 import UiRouter from "angular-ui-router";
-import Routes from "./setup.routes";
+import RootSection from "../sections/root";
+import CompaniesSection from "../sections/companies";
+import Config from "./setup.config";
 
-const app = angular.module(
-    "davcs86_gameboard",
-    [
-        // plugins
-        UiRouter,
-        "ngAnimate",
-        "ngTouch",
-        "ngSanitize",
-        "ngMessages",
-        "ngAria",
-        "schemaForm",
-        "toaster",
-        Collapse,
+export default Angular.module(
+        "davcs86_gameboard",
+        [
+            // plugins
+            UiRouter,
+            "ngAnimate",
+            "ngTouch",
+            "ngSanitize",
+            "ngMessages",
+            "ngAria",
+            "schemaForm",
+            "ng-sweet-alert",
+            "ui.grid",
+            "ui.grid.autoResize",
+            Collapse,
 
-        // routes
-        Routes,
-
-        // sections
-        //require("./pages/events/events.module").name,
-        //require("./pages/auth/auth.module").name
-    ]
-);
-
-app
+            // sections
+            RootSection,
+            CompaniesSection
+        ]
+    )
     .config(Config)
-    .run(Run);
-
-
-export default app;
+    .constant("$apiUrl", "/api");

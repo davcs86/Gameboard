@@ -1,27 +1,26 @@
 ﻿/// <autosync enabled="true" />
 <<<<<<< HEAD
 /// <reference path="js/app.js" />
-/// <reference path="js/site.js" />
-/// <reference path="lib/angular-animate/angular-animate.js" />
-/// <reference path="lib/angular-aria/angular-aria.js" />
-/// <reference path="lib/angularjs-toaster/toaster.js" />
-/// <reference path="lib/angular-messages/angular-messages.js" />
-/// <reference path="lib/angular-sanitize/angular-sanitize.js" />
-/// <reference path="lib/angular-schema-form/dist/bootstrap-decorator.js" />
-/// <reference path="lib/angular-schema-form/dist/schema-form.js" />
-/// <reference path="lib/angular-schema-form-bootstrap/bootstrap-decorator.min.js" />
-/// <reference path="lib/angular-touch/angular-touch.js" />
-/// <reference path="lib/objectpath/lib/ObjectPath.js" />
-/// <reference path="lib/tv4/tv4.js" />
-/// <reference path="lib/jquery-validation/dist/additional-methods.js" />
+/// <reference path="../app/setup/setup.config.js" />
+/// <reference path="../App/setup/setup.routes.js" />
+/// <reference path="../app/setup/setup.run.js" />
 =======
+/// <reference path="../app/sections/companies/companies.module.js" />
+/// <reference path="../app/sections/companies/companies.routes.js" />
+/// <reference path="../app/sections/companies/companies.service.js" />
+/// <reference path="../app/sections/companies/edit/list.controller.js" />
+/// <reference path="../app/sections/companies/index.js" />
+/// <reference path="../app/sections/companies/list/list.controller.js" />
+/// <reference path="../app/sections/companies/new/new.controller.js" />
+/// <reference path="../app/sections/root/index.js" />
+/// <reference path="../app/sections/root/root.controller.js" />
+/// <reference path="../app/sections/root/root.module.js" />
 /// <reference path="../app/setup/setup.bootstrap.js" />
 /// <reference path="../app/setup/setup.config.js" />
 /// <reference path="../app/setup/setup.module.js" />
-/// <reference path="../App/setup/setup.routes.js" />
-/// <reference path="../app/setup/setup.run.js" />
+>>>>>>> - Webpack bundling finished.
 /// <reference path="../app/setup/setup.vendor.js" />
 /// <reference path="../gulpfile.js" />
-/// <reference path="../webpack.min.js" />
+/// <reference path="../webpack.config.js" />
 /// <reference path="js/app.min.js" />
->>>>>>> Removing bower and dotnet bundling.
+/// <reference path="lib/jquery-validation/dist/additional-methods.js" />

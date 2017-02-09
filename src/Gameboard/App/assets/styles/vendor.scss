@@ -1,18 +1,8 @@
 ﻿
 $icon-font-path: '~bootstrap-sass/assets/fonts/bootstrap/';
 @import '~bootstrap-sass/assets/stylesheets/_bootstrap.scss';
-//@import '~angularjs-toaster/toaster.scss';
-//@import '~font-awesome/scss/font-awesome.scss';
+@import '~angularjs-toaster/toaster.scss';
+@import '~font-awesome/scss/font-awesome.scss';
+@import '~angular-ui-grid/ui-grid.css';
+@import '~sweetalert/dist/sweetalert.css';
 
-html { height: 100%; }
-body {
-  min-height: 100%;
-  position: relative;
-  padding-bottom: 60px;
-}
-
-[ng-click],
-[data-ng-click],
-[x-ng-click] {
-  cursor: pointer;
-}

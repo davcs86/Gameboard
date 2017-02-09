@@ -9,17 +9,17 @@ var ExtractTextPlugin = require("extract-text-webpack-plugin");
 
 var rootPublic = path.resolve("./App");
 
-module.exports = function (minify, runEslint) {
+module.exports = function(minify, runEslint) {
 
     minify = isUndefined(minify) ? false : minify;
     runEslint = isUndefined(runEslint) ? true : runEslint;
 
-    var ExtractSass = new ExtractTextPlugin({
-        filename: "css/[name]"+(minify?".min":"")+".css",
+    const ExtractSass = new ExtractTextPlugin({
+        filename: `css/[name]${minify ? ".min" : ""}.css`,
         allChunks: true
     });
 
-    var webpackConfig = {
+    const webpackConfig = {
         // entry points
         entry: {
             app: __dirname + "/App/setup/setup.bootstrap.js"
@@ -28,8 +28,8 @@ module.exports = function (minify, runEslint) {
         // output system
         output: {
             path: __dirname + "/wwwroot",
-            filename: "js/[name]" + (minify ? ".min" : "") + ".js",
-            publicPath: '/'
+            filename: `js/[name]${minify ? ".min" : ""}.js`,
+            publicPath: "/"
         },
         // resolves modules
         resolve: {
@@ -43,19 +43,31 @@ module.exports = function (minify, runEslint) {
                     enforce: "pre",
                     use: [{ loader: "eslint-loader" }]
                 }, {
+                    test: /\.html$/,
+                    loaders: [
+                        {
+                            loader: "html-loader",
+                            query: {
+                                attrs: ["img:src", "img:data-src"]
+                            }
+                        }
+                    ]
+                }, {
                     test: /\.(scss|sass)$/,
                     loader: ExtractSass.extract({
                         fallback: "style-loader",
                         use: [
                             {
-                                loader: "css-loader", options: {
+                                loader: "css-loader",
+                                options: {
                                     sourceMap: true,
                                     root: rootPublic
                                 }
                             },
                             { loader: "postcss-loader" },
                             {
-                                loader: "sass-loader", options: {
+                                loader: "sass-loader",
+                                options: {
                                     includePaths: [
                                         rootPublic
                                     ],
@@ -69,7 +81,8 @@ module.exports = function (minify, runEslint) {
                 }, {
                     test: /\.(js|es6)$/,
                     exclude: /(node_modules|wwwroot)/,
-                    loaders: [{
+                    loaders: [
+                        {
                             loader: "babel-loader",
                             query: {
                                 cacheDirectory: false
@@ -138,7 +151,7 @@ module.exports = function (minify, runEslint) {
                 moveToParents: true
             }),
             new webpack.optimize.CommonsChunkPlugin({
-                name: 'common',
+                name: "common",
                 async: true,
                 children: true,
                 minChunks: Infinity
@@ -155,6 +168,7 @@ module.exports = function (minify, runEslint) {
     if (!runEslint) {
         webpackConfig.module.rules.unshift();
     }
+    // remove uglify
     if (!minify) {
         webpackConfig.plugins.pop();
     }

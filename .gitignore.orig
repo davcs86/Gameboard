@@ -250,4 +250,5 @@ src/Gameboard/wwwroot/lib/*
 src/Gameboard./
 src/Gameboard/wwwroot/js/
 src/Gameboard/wwwroot/css/
->>>>>>> .gitignore & minor changes to gulp tasks.
+src/Gameboard/nodb_storage/
+>>>>>>> - Webpack bundling finished.
