@@ -1,17 +1,17 @@
 ﻿"use strict";
 
-class CompaniesEditController {
-    constructor($state, $stateParams, $scope, uiGridConstants, $rootScope, CompaniesService, SweetAlert) {
+class ProductsEditController {
+    constructor($state, $stateParams, $scope, uiGridConstants, $rootScope, ProductsService, SweetAlert) {
         "ngInject";
         $rootScope.$emit("title_updated",
         {
-            pageTitle: "Companies",
-            sectionTitle: "Edit company"
+            pageTitle: "Products",
+            sectionTitle: "Edit product"
         });
 
         this.SweetAlert = SweetAlert;
         this.$rootScope = $rootScope;
-        this.$apiService = CompaniesService;
+        this.$apiService = ProductsService;
         this.$scope = $scope;
         this.$state = $state;
         $scope.id = $stateParams.id;
@@ -52,8 +52,8 @@ class CompaniesEditController {
             if (form.$valid) {
                 vm.$apiService.update(vm.$scope.id, vm.$scope.model)
                     .then(() => {
-                        vm.SweetAlert.success("Company updated!", { title: "" });
-                        vm.$rootScope.$emit("companies_updated");
+                        vm.SweetAlert.success("Product updated!", { title: "" });
+                        vm.$rootScope.$emit("products_updated");
                     },
                     (msg) => {
                         vm.SweetAlert.alert(`Error code: ${msg}`, { title: "Error!" });
@@ -73,9 +73,9 @@ class CompaniesEditController {
             },
             (msg) => {
                 this.SweetAlert.alert(`Error code: ${msg}`, { title: "Error!" });
-                this.$state.go("companies.list");
+                this.$state.go("products.list");
             });
     }
 }
 
-export default CompaniesEditController;
+export default ProductsEditController;
