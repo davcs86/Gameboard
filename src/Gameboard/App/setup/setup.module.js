@@ -17,7 +17,7 @@ export default Angular.module(
             "ngTouch",
             "ngSanitize",
             "ngMessages",
-            "ngAria",
+            //"ngAria",
             "schemaForm",
             "ng-sweet-alert",
             "ui.grid",

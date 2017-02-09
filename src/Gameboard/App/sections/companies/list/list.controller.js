@@ -1,5 +1,7 @@
 ﻿"use strict";
 
+import moment from "moment";
+
 class CompaniesListController {
     constructor($state, $scope, uiGridConstants, $rootScope, CompaniesService, SweetAlert) {
         "ngInject";
@@ -41,8 +43,8 @@ class CompaniesListController {
         };
 
         $scope.gridOptions = {
-            paginationPageSizes: [25, 50, 75],
-            paginationPageSize: 25,
+            paginationPageSizes: [12, 24, 36],
+            paginationPageSize: 12,
             enableSorting: true,
             enableFiltering: true
         };
@@ -58,8 +60,8 @@ class CompaniesListController {
                     '<div class="ui-grid-cell-contents text-center"><a class="btn btn-xs btn-primary" title="Delete" ng-click="grid.appScope.deleteItem(row)"><i class="glyphicon glyphicon-remove"></i></a>&nbsp;&nbsp;<a class="btn btn-xs btn-primary" title="Edit" ng-click="grid.appScope.editItem(row)"><i class="glyphicon glyphicon-edit"></i></a></div>'
             },
             { name: "name", width: 300, sort: { direction: uiGridConstants.ASC }, enableHiding: true },
-            { name: "creationTime", width: 200, enableHiding: true, enableFiltering: false },
-            { name: "lastModified", width: 200, enableHiding: true, enableFiltering: false }
+            { name: "creationTime_", width: 200, enableHiding: true, enableFiltering: false },
+            { name: "lastModified_", width: 200, enableHiding: true, enableFiltering: false }
         ];
 
         $rootScope.$on("companies_updated",
@@ -72,6 +74,17 @@ class CompaniesListController {
     loadData() {
         this.$apiService.readAll()
             .then((data) => {
+                // keys to preseve
+                var k = ["id", "name", "creationTime", "lastModified"];
+                data = data.map((n) => {
+                    var o = {};
+                    k.forEach((l) => {
+                        o[l] = n[l];
+                    });
+                    o["creationTime_"] = moment(o["creationTime"]).format("MMM DD YYYY, hh:mm:ss a");
+                    o["lastModified_"] = moment(o["lastModified"]).format("MMM DD YYYY, hh:mm:ss a");
+                    return o;
+                });
                 this.$scope.gridOptions.data = data;
             },
             (msg) => {
