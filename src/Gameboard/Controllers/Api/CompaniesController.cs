@@ -94,10 +94,6 @@ namespace Gameboard.Controllers.Api
             {
                 return NotFound(id);
             }
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
             return Ok(await _companyRepository.Context.Delete(id));
         }
     }

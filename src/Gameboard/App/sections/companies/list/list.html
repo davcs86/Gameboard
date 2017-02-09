@@ -1,0 +1,14 @@
+﻿<div class="row">
+    <div class="col-xs-6">
+        <button class="btn btn-primary" ui-sref="companies.new"><i class="glyphicon glyphicon-plus"></i><span class="hidden-xs">&nbsp;New company</span></button>
+    </div>
+    <div class="col-xs-6 text-right">
+        <button class="btn btn-default" ng-click="companies.loadData()"><i class="glyphicon glyphicon-refresh"></i><span class="hidden-xs">&nbsp;Reload data</span></button>
+    </div>
+</div>
+<div class="clearfix" style="height: 10px"></div>
+<div class="row">
+    <div class="col-md-12">
+        <div ui-grid="gridOptions" class="grid" ui-grid-auto-resize></div>
+    </div>
+</div>

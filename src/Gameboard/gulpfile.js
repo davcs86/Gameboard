@@ -3,6 +3,7 @@ var gulp = require("gulp");
 var gutil = require("gulp-util");
 var webpack = require("webpack");
 var webpackConfig = require("./webpack.config.js");
+var watch = require("gulp-watch");
 
 var webpackCB = function(cb) {
     return function(err, stats) {
@@ -30,6 +31,10 @@ gulp.task("build:min:noeslint", function (callback) {
 gulp.task("build:nomin:noeslint", function (callback) {
     // run webpack w/o minify & w/o lint
     webpack(webpackConfig(false, false), webpackCB(callback));
+});
+
+gulp.task("dev:watch", function() {
+    gulp.watch("App/**/*.*", ["build:nomin:eslint"]);
 });
 
 gulp.task("default", ["default:lint"]);

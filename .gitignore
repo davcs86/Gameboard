@@ -244,3 +244,4 @@ ModelManifest.xml
 src/Gameboard./
 src/Gameboard/wwwroot/js/
 src/Gameboard/wwwroot/css/
+src/Gameboard/nodb_storage/

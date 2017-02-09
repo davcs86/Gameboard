@@ -1,4 +1,4 @@
-﻿'use strict';
+﻿"use strict";
 
 // vendor files
 import "./setup.vendor";
@@ -7,7 +7,7 @@ import "./setup.vendor";
 import "./setup.module";
 
 angular.element(document).ready(function () {
-  angular.bootstrap(document, ['davcs86_gameboard'], {
+  angular.bootstrap(document, ["davcs86_gameboard"], {
     strictDi: true
   });
 });
