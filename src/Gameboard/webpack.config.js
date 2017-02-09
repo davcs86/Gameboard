@@ -34,9 +34,16 @@ module.exports = function(minify, runEslint) {
         // resolves modules
         resolve: {
             extensions: [".js", ".es6", ".scss", ".css"],
+            alias: {
+                modernizr$: path.resolve(__dirname, ".modernizrrc") 
+            }
         },
         module: {
             rules: [
+                {
+                    loader: 'webpack-modernizr?useConfigFile',
+                    test: /\.modernizrrc$/
+                },
                 {
                     test: /\.(js|es6)$/,
                     exclude: /(node_modules|wwwroot)/,
@@ -61,7 +68,8 @@ module.exports = function(minify, runEslint) {
                                 loader: "css-loader",
                                 options: {
                                     sourceMap: true,
-                                    root: rootPublic
+                                    root: rootPublic,
+                                    minimize: minify
                                 }
                             },
                             { loader: "postcss-loader" },
@@ -93,7 +101,7 @@ module.exports = function(minify, runEslint) {
                     test: /\.css$/,
                     loaders: [
                         "style-loader",
-                        "css-loader?sourceMap",
+                        "css-loader?sourceMap"+(minify?"&minimize":""),
                         "postcss-loader"
                     ]
                 }, {
