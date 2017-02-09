@@ -25,10 +25,10 @@
         </div>
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-                <li ng-class="{active: rootCtrl.state.includes['products']}">
+                <li ng-class="{active: rootCtrl.stateIncludes('products')}">
                     <a ui-sref="products.list">Products</a>
                 </li>
-                <li ng-class="{active: rootCtrl.state.includes['companies']}">
+                <li ng-class="{active: rootCtrl.stateIncludes('companies')}">
                     <a ui-sref="companies.list">Companies</a>
                 </li>
             </ul>

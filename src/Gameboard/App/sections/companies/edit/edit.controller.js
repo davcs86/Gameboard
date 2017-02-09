@@ -23,7 +23,7 @@ class CompaniesEditController {
         vm.$scope.schema = {
             "type": "object",
             "properties": {
-                "Name": {
+                "name": {
                     "title": "Name",
                     "type": "string",
                     "minLength": 5,
@@ -32,18 +32,17 @@ class CompaniesEditController {
                 }
             },
             "required": [
-                "Name"
+                "name"
             ]
         };
 
         vm.$scope.form = [
             {
-                "key": "Name"
+                "key": "name"
             }
         ];
 
         vm.$scope.model = {
-            Name: ""
         };
 
         vm.$scope.onSubmit = function(form) {
@@ -51,6 +50,7 @@ class CompaniesEditController {
             vm.$scope.$broadcast("schemaFormValidate");
             // Then we check if the form is valid
             if (form.$valid) {
+                console.log(vm.$scope.model);
                 vm.$apiService.update(vm.$scope.id, vm.$scope.model)
                     .then(() => {
                         vm.SweetAlert.success("Company updated!", { title: "" });
@@ -66,7 +66,11 @@ class CompaniesEditController {
         this.$apiService.readOne(this.$scope.id)
             .then((data) => {
                 // fill the model
-                this.$scope.model.Name = data.name;
+                var k = ["id", "name", "creationTime", "lastModified"];
+                k.forEach((l) => {
+                    this.$scope.model[l] = data[l];
+                });
+                console.log(this.$scope.model);
                 this.$scope.$broadcast("schemaFormRedraw");
             },
             (msg) => {
