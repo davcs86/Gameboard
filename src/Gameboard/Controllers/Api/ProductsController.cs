@@ -52,6 +52,10 @@ namespace Gameboard.Controllers.Api
         [HttpPost]
         public async Task<IActionResult> Post([FromBody]ProductModel product)
         {
+            // force model validation
+            ModelState.Clear();
+            TryValidateModel(product);
+
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
@@ -68,6 +72,11 @@ namespace Gameboard.Controllers.Api
             {
                 return NotFound(id);
             }
+
+            // force model validation
+            ModelState.Clear();
+            TryValidateModel(product);
+
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);

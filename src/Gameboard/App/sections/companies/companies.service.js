@@ -1,4 +1,6 @@
-﻿class CompaniesService {
+﻿import {forIn} from "lodash";
+
+class CompaniesService {
     constructor($http, $apiUrl, $q) {
         "ngInject";
         this.$http = $http;
@@ -14,7 +16,14 @@
                 resolve(response.data);
             },
             (response) => { // error
-                reject(response.statusText);
+                // join error messages (if any)
+                var errorMsgs = "";
+                forIn(response.data,
+                    function(d) {
+                        errorMsgs += `${d}; `;
+                    });
+                var error = response.statusText + (errorMsgs.length > 0 ? ": " + errorMsgs : "");
+                reject((error.length>0?error:"Unknown."));
             }));
     }
     readAll() {
