@@ -244,3 +244,4 @@ src/Gameboard/nodb_storage/*
 src/Gameboard/wwwroot/css/*
 src/Gameboard/wwwroot/js/*
 src/Gameboard/wwwroot/lib/*
+src/Gameboard/Properties/PublishProfiles/

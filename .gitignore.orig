@@ -251,4 +251,5 @@ src/Gameboard./
 src/Gameboard/wwwroot/js/
 src/Gameboard/wwwroot/css/
 src/Gameboard/nodb_storage/
->>>>>>> - Webpack bundling finished.
+src/Gameboard/Properties/PublishProfiles/
+>>>>>>> Products module: Grid and Create sections completed.

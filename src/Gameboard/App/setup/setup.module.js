@@ -23,8 +23,8 @@ export default Angular.module(
             "ui.grid",
             "ui.grid.autoResize",
             "ui.grid.pagination",
-            "ui.select",
-            "ui.sortable",
+            //"ui.select",
+            //"ui.sortable",
 
             Collapse,
 

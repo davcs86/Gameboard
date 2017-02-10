@@ -5,7 +5,7 @@ function setupConfig($logProvider, $urlRouterProvider) {
 
     // Enable log
     $logProvider.debugEnabled(true);
-    $urlRouterProvider.otherwise("/companies/list");
+    $urlRouterProvider.otherwise("/products/list");
 
  }
 
