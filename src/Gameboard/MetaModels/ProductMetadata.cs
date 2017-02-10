@@ -1,8 +1,9 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc;
+using Gameboard_DAL.Repositories.Models;
 
-namespace Gameboard_DAL.Models
+namespace Gameboard.MetaModels
 {
     [ModelMetadataType(typeof(ProductMetadata))]
     public class ProductModel : Product
@@ -20,7 +21,7 @@ namespace Gameboard_DAL.Models
 
         //Description, Yes, Max length 100
         [DisplayName("Description")]
-        [StringLength(100, ErrorMessage = "Description cannot be larger than 100 characters.")]
+        [StringLength(500, ErrorMessage = "Description cannot be larger than 500 characters.")]
         string Description { get; set; }
 
         [DisplayName("Age restriction")]

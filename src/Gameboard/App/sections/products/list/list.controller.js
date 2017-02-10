@@ -1,6 +1,7 @@
 ﻿"use strict";
 
 import moment from "moment";
+import {isUndefined} from "lodash";
 
 class ProductsListController {
     constructor($state, $scope, uiGridConstants, $rootScope, ProductsService, SweetAlert) {
@@ -62,7 +63,7 @@ class ProductsListController {
             { name: "name", width: 300, sort: { direction: uiGridConstants.ASC }, enableHiding: true },
             { name: "ageRestriction", width: 200, enableHiding: true, enableFiltering: false },
             { name: "price_", width: 200, enableHiding: true, enableFiltering: false },
-            { name: "company", width: 250, enableHiding: true, enableFiltering: true },
+            { name: "company_", width: 250, enableHiding: true, enableFiltering: true },
             { name: "creationTime_", width: 200, enableHiding: true, enableFiltering: false },
             { name: "lastModified_", width: 200, enableHiding: true, enableFiltering: false }
         ];
@@ -82,13 +83,15 @@ class ProductsListController {
                 data = data.map((n) => {
                     var o = {};
                     k.forEach((l) => {
-                        o[l] = n[l];
+                        o[l] = isUndefined(n[l])?"":n[l];
                     });
                     o["price_"] = "$ "+o["price"];
+                    o["company_"] = isUndefined(o["company"])?"":o["company"]["name"];
                     o["creationTime_"] = moment(o["creationTime"]).format("MMM DD YYYY, hh:mm:ss a");
                     o["lastModified_"] = moment(o["lastModified"]).format("MMM DD YYYY, hh:mm:ss a");
                     return o;
                 });
+                console.log(data);
                 this.$scope.gridOptions.data = data;
             },
             (msg) => {

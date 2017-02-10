@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Gameboard_DAL.Models
+namespace Gameboard_DAL.Repositories.Models
 {
     public class Company : ICompany
     {

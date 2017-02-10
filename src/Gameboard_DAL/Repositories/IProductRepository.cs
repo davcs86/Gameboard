@@ -1,4 +1,4 @@
-﻿using Gameboard_DAL.Models;
+﻿using Gameboard_DAL.Repositories.Models;
 
 namespace Gameboard_DAL.Repositories
 {

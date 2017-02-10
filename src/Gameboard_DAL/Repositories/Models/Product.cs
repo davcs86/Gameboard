@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Gameboard_DAL.Repositories;
 
-namespace Gameboard_DAL.Models
+namespace Gameboard_DAL.Repositories.Models
 {
-    public partial class Product: IProduct
+    public class Product: IProduct
     {
         public void FromInterface(IBaseItem item)
         {
