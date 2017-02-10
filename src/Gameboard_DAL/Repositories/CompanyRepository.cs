@@ -1,4 +1,4 @@
-﻿using Gameboard_DAL.Models;
+﻿using Gameboard_DAL.Repositories.Models;
 using Gameboard_DAL.Utils;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;

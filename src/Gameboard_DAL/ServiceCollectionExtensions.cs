@@ -1,5 +1,5 @@
-﻿using Gameboard_DAL.Models;
-using Gameboard_DAL.Repositories;
+﻿using Gameboard_DAL.Repositories;
+using Gameboard_DAL.Repositories.Models;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using NoDb;
 

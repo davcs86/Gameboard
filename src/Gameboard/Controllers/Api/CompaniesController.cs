@@ -3,10 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Gameboard_DAL.Models;
+using Gameboard.MetaModels;
 using Microsoft.AspNetCore.Mvc;
 using Gameboard_DAL.Repositories;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Gameboard_DAL.Repositories.Models;
 
 // For more information on enabling Web API for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 

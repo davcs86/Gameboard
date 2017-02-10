@@ -1,8 +1,9 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc;
+using Gameboard_DAL.Repositories.Models;
 
-namespace Gameboard_DAL.Models
+namespace Gameboard.MetaModels
 {
     [ModelMetadataType(typeof(CompanyMetadata))]
     public class CompanyModel : Company

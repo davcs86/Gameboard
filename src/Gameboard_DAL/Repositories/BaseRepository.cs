@@ -1,9 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Gameboard_DAL.Models;
+using Gameboard_DAL.Repositories.Models;
 using Gameboard_DAL.Utils;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;

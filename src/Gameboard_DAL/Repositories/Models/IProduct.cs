@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Gameboard_DAL.Models
+﻿namespace Gameboard_DAL.Repositories.Models
 {
     public interface IProduct: IBaseItem
     {
