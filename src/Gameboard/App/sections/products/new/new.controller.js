@@ -3,7 +3,7 @@
 import { toNumber } from "lodash";
 
 class ProductsNewController {
-    constructor($q, $state, $scope, uiGridConstants, $rootScope, ProductsService, CompaniesService, SweetAlert) {
+    constructor($state, $scope, $rootScope, ProductsService, CompaniesService, SweetAlert) {
         "ngInject";
         $rootScope.$emit("title_updated",
         {
@@ -17,7 +17,6 @@ class ProductsNewController {
         this.$apiCompaniesService = CompaniesService;
         this.$scope = $scope;
         this.$state = $state;
-        this.$q = $q;
         this.createForm();
     }
     createForm() {
@@ -35,10 +34,7 @@ class ProductsNewController {
                 },
                 "price": {
                     "title": "Price",
-                    "type": "number",
-                    //"x-schema-form": {
-                    //    "type": "number"
-                    //}
+                    "type": "number"
                 },
                 "companyId": {
                     "title": "Company",
@@ -51,7 +47,7 @@ class ProductsNewController {
                 "description": {
                     "title": "Description",
                     "type": "string",
-                    "maxLength": 500,
+                    "maxLength": 500
                 }
             },
             "required": [
@@ -85,11 +81,10 @@ class ProductsNewController {
                 "type": "textarea"
             }
         ];
-        vm.$scope.refreshCompanies = function() {
+        vm.$scope.refreshCompanies = () => {
             vm.$apiCompaniesService.readAll()
                 .then((data) => {
                     vm.$scope.companies = data.map((d) => {
-                        //console.log(d);
                         return {
                             "value": d.id,
                             "name": d.name
@@ -109,20 +104,19 @@ class ProductsNewController {
         });
         vm.$scope.refreshCompanies();
 
-        vm.$scope.validatePrice = function() {
+        vm.$scope.validatePrice = () => {
             const price = toNumber(vm.$scope.model.price) || 0;
             vm.$scope.$broadcast("schemaForm.error.price", "wrongPrice", price >= 1.0 && price <= 1000.0);
         };
 
-        vm.$scope.validateAge = function() {
+        vm.$scope.validateAge = () => {
             const age = toNumber(vm.$scope.model.ageRestriction) || 0;
             vm.$scope.$broadcast("schemaForm.error.ageRestriction", "wrongAge", age >= 0.0 && age <= 100.0);
         };
-        vm.$scope.model = {
-        
-        };
 
-        vm.$scope.onSubmit = function(form) {
+        vm.$scope.model = {};
+
+        vm.$scope.onSubmit = (form) => {
             vm.$scope.validatePrice();
             vm.$scope.validateAge();
             // First we broadcast an event so all fields validate themselves

@@ -1,6 +1,5 @@
 ﻿"use strict";
 
-
 import Angular from "angular";
 import Collapse from "angular-ui-bootstrap/src/collapse";
 import UiRouter from "angular-ui-router";
@@ -25,7 +24,6 @@ export default Angular.module(
             "ui.grid.pagination",
             //"ui.select",
             //"ui.sortable",
-
             Collapse,
 
             // sections

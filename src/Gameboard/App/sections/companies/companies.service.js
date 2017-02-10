@@ -9,8 +9,9 @@ class CompaniesService {
         this.$q = $q;
     }
     _doRequest(parameters) {
+        var vm = this;
         // return a promise
-        return this.$q((resolve, reject) => this.$http(parameters)
+        return this.$q((resolve, reject) => vm.$http(parameters)
             .then(
             (response) => { // success
                 resolve(response.data);
@@ -22,8 +23,8 @@ class CompaniesService {
                     function(d) {
                         errorMsgs += `${d}; `;
                     });
-                var error = response.statusText + (errorMsgs.length > 0 ? ": " + errorMsgs : "");
-                reject((error.length>0?error:"Unknown."));
+                var error = response.statusText + (errorMsgs.length > 0 ? `: ${errorMsgs}` : "");
+                reject((error.length > 0 ? error : "Unknown."));
             }));
     }
     readAll() {

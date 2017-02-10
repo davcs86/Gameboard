@@ -7,6 +7,6 @@ function setupConfig($logProvider, $urlRouterProvider) {
     $logProvider.debugEnabled(true);
     $urlRouterProvider.otherwise("/products/list");
 
- }
+}
 
 export default setupConfig;

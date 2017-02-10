@@ -17,6 +17,14 @@ namespace Gameboard_DAL.Repositories
         protected readonly IBasicQueries<T> Query;
         protected readonly DALSettings Settings;
 
+        /// <summary>
+        /// Just for mocking, shouldn't be used in real-world context.
+        /// </summary>
+        public BaseRepository()
+        {
+
+        }
+
         protected internal BaseRepository(
             IOptions<DALSettings> settings,
             IBasicQueries<T> query,
@@ -39,7 +47,7 @@ namespace Gameboard_DAL.Repositories
             return list;
         }
 
-        public async Task<T> Get(string itemId)
+        public virtual async Task<T> Get(string itemId)
         {
             var allItems = await GetAll().ConfigureAwait(false);
             return allItems.FirstOrDefault(p => p.Id == itemId);

@@ -43,6 +43,7 @@ class CompaniesEditController {
         ];
 
         vm.$scope.model = {
+        
         };
 
         vm.$scope.onSubmit = function(form) {

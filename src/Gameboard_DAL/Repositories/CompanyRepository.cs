@@ -8,6 +8,13 @@ namespace Gameboard_DAL.Repositories
 {
     public class CompanyRepository : ICompanyRepository
     {
+        /// <summary>
+        /// Just for mocking, shouldn't be used in real-world context.
+        /// </summary>
+        public CompanyRepository()
+        {
+            
+        }
 
         public CompanyRepository(
             IOptions<DALSettings> settings, 

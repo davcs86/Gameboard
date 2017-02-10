@@ -30,12 +30,12 @@ class ProductsListController {
                     if (result) {
                         vm.$apiService.delete(row.entity.id)
                             .then(() => {
-                                    SweetAlert.success("Product deleted!", { title: "" });
-                                    $rootScope.$emit("products_updated");
-                                },
-                                (msg) => {
-                                    SweetAlert.alert(msg, { title: "Error!" });
-                                });
+                                SweetAlert.success("Product deleted!", { title: "" });
+                                $rootScope.$emit("products_updated");
+                            },
+                            (msg) => {
+                                SweetAlert.alert(msg, { title: "Error!" });
+                            });
                     }
                 });
         };
@@ -77,7 +77,6 @@ class ProductsListController {
         this.loadData();
     }
     loadData() {
-        console.log("loadData");
         this.$apiService.readAll()
             .then((data) => {
                 // keys to preseve

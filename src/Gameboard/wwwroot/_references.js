@@ -22,4 +22,4 @@
 /// <reference path="../app/setup/setup.vendor.js" />
 /// <reference path="../gulpfile.js" />
 /// <reference path="../webpack.config.js" />
-/// <reference path="js/app.min.js" />
+/// <reference path="js/app.js" />
