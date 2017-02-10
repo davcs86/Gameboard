@@ -1,7 +1,8 @@
 ﻿"use strict";
 
 import moment from "moment";
-import {isUndefined} from "lodash";
+import numeral from "numeral";
+import {get as _get, isNull} from "lodash";
 
 class ProductsListController {
     constructor($state, $scope, uiGridConstants, $rootScope, ProductsService, SweetAlert) {
@@ -15,7 +16,7 @@ class ProductsListController {
             sectionTitle: "Summary"
         });
 
-        $scope.deleteItem = function(row) {
+        $scope.deleteItem = (row) => {
             SweetAlert.confirm("Your will not be able to recover this product!",
                 {
                     title: "Are you sure?",
@@ -25,21 +26,21 @@ class ProductsListController {
                     confirmButtonText: "Yes, delete it!",
                     closeOnConfirm: false
                 })
-                .then(function(result) {
+                .then((result) => {
                     if (result) {
                         vm.$apiService.delete(row.entity.id)
-                            .then(function() {
+                            .then(() => {
                                     SweetAlert.success("Product deleted!", { title: "" });
                                     $rootScope.$emit("products_updated");
                                 },
-                                function(msg) {
+                                (msg) => {
                                     SweetAlert.alert(msg, { title: "Error!" });
                                 });
                     }
                 });
         };
 
-        $scope.editItem = function(row) {
+        $scope.editItem = (row) => {
             $state.go("products.edit", { id: row.entity.id });
         };
 
@@ -69,29 +70,33 @@ class ProductsListController {
         ];
 
         $rootScope.$on("products_updated",
-            function() {
-                vm.loadData();
-            });
+        () => {
+            this.loadData();
+        });
 
         this.loadData();
     }
     loadData() {
+        console.log("loadData");
         this.$apiService.readAll()
             .then((data) => {
                 // keys to preseve
-                var k = ["id", "name", "creationTime", "lastModified"];
+                var k = [
+                    ["id", ""], ["name", ""], ["creationTime", new Date()], ["lastModified", new Date()],
+                    ["company", { name: "" }], ["price", 0], ["ageRestriction", ""]
+                ];
                 data = data.map((n) => {
                     var o = {};
                     k.forEach((l) => {
-                        o[l] = isUndefined(n[l])?"":n[l];
+                        var v = _get(n, l[0], l[1]); // get the value, or set the default
+                        o[l[0]] = isNull(v) ? l[1] : v;
                     });
-                    o["price_"] = "$ "+o["price"];
-                    o["company_"] = isUndefined(o["company"])?"":o["company"]["name"];
+                    o["price_"] = numeral(o["price"]).format("$ 0,0.00");
+                    o["company_"] = o["company"]["name"];
                     o["creationTime_"] = moment(o["creationTime"]).format("MMM DD YYYY, hh:mm:ss a");
                     o["lastModified_"] = moment(o["lastModified"]).format("MMM DD YYYY, hh:mm:ss a");
                     return o;
                 });
-                console.log(data);
                 this.$scope.gridOptions.data = data;
             },
             (msg) => {
