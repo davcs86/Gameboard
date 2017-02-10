@@ -9,10 +9,17 @@ if [ -d $artifactsFolder ]; then
   rm -R $artifactsFolder
 fi
 
+cd src/Gameboard_DAL
 dotnet restore
+dotnet build
 
-dotnet build src/Gameboard_DAL
-dotnet build src/Gameboard
+cd ../Gameboard
+dotnet restore
+dotnet build
+
+cd ../../test/Gameboard_Tests
+dotnet restore
+dotnet build
 
 revision=${TRAVIS_JOB_ID:=1}  
 revision=$(printf "%04d" $revision) 

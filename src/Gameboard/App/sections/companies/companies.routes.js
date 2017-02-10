@@ -14,30 +14,34 @@ import NewCtrl from "./new/new.controller";
 function routeConfig($stateProvider) {
     "ngInject";
     $stateProvider
-        .state("companies", {
+        .state("companies",
+        {
             url: "/companies",
             abstract: true,
             template: IndexTpl
         });
     $stateProvider
-        .state("companies.list", {
+        .state("companies.list",
+        {
             url: "/list",
             template: ListTpl,
-            controller: ListCtrl,
+            controller: ListCtrl.name,
             controllerAs: "companies"
         });
     $stateProvider
-        .state("companies.new", {
+        .state("companies.new",
+        {
             url: "/new",
             template: NewTpl,
-            controller: NewCtrl,
+            controller: NewCtrl.name,
             controllerAs: "companies"
         });
     $stateProvider
-        .state("companies.edit", {
+        .state("companies.edit",
+        {
             url: "/edit/:id",
             template: EditTpl,
-            controller: EditCtrl,
+            controller: EditCtrl.name,
             controllerAs: "companies"
         });
 

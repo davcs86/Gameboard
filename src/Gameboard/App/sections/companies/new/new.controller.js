@@ -56,7 +56,7 @@ class CompaniesNewController {
                         vm.$state.go("companies.list");
                     },
                     (msg) => {
-                        vm.SweetAlert.alert("Error code: " + msg, { title: "Error!" });
+                        vm.SweetAlert.alert(`Error code: ${msg}`, { title: "Error!" });
                     });
             }
         };
