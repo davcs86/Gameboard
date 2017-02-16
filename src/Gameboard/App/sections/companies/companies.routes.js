@@ -25,7 +25,7 @@ function routeConfig($stateProvider) {
         {
             url: "/list",
             template: ListTpl,
-            controller: ListCtrl.name,
+            controller: ListCtrl,
             controllerAs: "companies"
         });
     $stateProvider
@@ -33,7 +33,7 @@ function routeConfig($stateProvider) {
         {
             url: "/new",
             template: NewTpl,
-            controller: NewCtrl.name,
+            controller: NewCtrl,
             controllerAs: "companies"
         });
     $stateProvider
@@ -41,7 +41,7 @@ function routeConfig($stateProvider) {
         {
             url: "/edit/:id",
             template: EditTpl,
-            controller: EditCtrl.name,
+            controller: EditCtrl,
             controllerAs: "companies"
         });
 

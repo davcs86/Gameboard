@@ -168,7 +168,8 @@ module.exports = function(minify, runEslint) {
             new webpack.optimize.UglifyJsPlugin({
                 minimize: true,
                 warnings: false,
-                sourceMap: true
+                sourceMap: true,
+                mangle: false
             })
         ]
     };

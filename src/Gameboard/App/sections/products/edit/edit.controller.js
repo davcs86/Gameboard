@@ -120,6 +120,8 @@ class ProductsEditController {
         vm.$scope.model = {};
 
         vm.$scope.onSubmit = (form) => {
+            vm.$scope.validatePrice();
+            vm.$scope.validateAge();
             // First we broadcast an event so all fields validate themselves
             vm.$scope.$broadcast("schemaFormValidate");
             // Then we check if the form is valid
