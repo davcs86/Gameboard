@@ -4,55 +4,62 @@ using Gameboard.MetaModels;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using Xunit;
+using Gameboard_DAL.Repositories;
+using Gameboard_DAL.Repositories.Models;
 
 namespace Gameboard_Tests.Api
 {
     public class CompanyApiControllerTests
     {
         [Fact]
-        public async Task Index_CreateAnInvalidCompany()
+        public async Task Create_ReturnsBadRequestErrorWhenModelHasErrors()
         {
             var mockRepo = new Mock<ICompanyRepository>();
-            var model = new CompanyModel { Name = "Fake" };
-            mockRepo.Setup(x => x.Context.Create(model)).Returns(Task.FromResult(null));
-
             var controller = new CompaniesController(mockRepo.Object);
-            var actionResult = await controller.Post(model);
+            controller.ModelState.AddModelError("", "Error");
 
-            Assert.IsType<BadRequestResult>(actionResult);
+            var actionResult = await controller.Post(new CompanyModel());
+
+            Assert.IsType<BadRequestObjectResult>(actionResult);
         }
 
         [Fact]
-        public async Task Index_CreateAValidCompany()
+        public async Task Create_CreatesAValidCompany()
         {
             var mockRepo = new Mock<ICompanyRepository>();
             var model = new CompanyModel {Name = "Company1"};
-            mockRepo.Setup(x => x.Context.Create(model)).Returns(Task.FromResult((Company) model));
+            var mockModel = new Company {Name = "Company1"};
+            mockRepo.Setup(x => x.Context.Create(model)).Returns(Task.FromResult(mockModel));
 
             var controller = new CompaniesController(mockRepo.Object);
             var actionResult = await controller.Post(model);
-            var newModel = ((OkObjectResult) actionResult).Value as Company;
 
-            Assert.IsType<OkObjectResult>(actionResult);
-            Assert.Equal(model.Name, newModel.Name);
+            var actionResultObj = Assert.IsType<OkObjectResult>(actionResult);
+            Assert.NotNull(actionResultObj);
+            var newModel = Assert.IsType<Company>(actionResultObj.Value);
+            Assert.NotNull(newModel.Name);
+            Assert.Equal<string>(model.Name, newModel.Name);
         }
 
         [Fact]
-        public async Task Index_GetsAnExistingCompany()
+        public async Task Read_GetsAnExistingCompany()
         {
             var mockRepo = new Mock<ICompanyRepository>();
-            mockRepo.Setup(x => x.Context.Get("Company1")).Returns(Task.FromResult(new Company {Id = "Company1"}));
+            var mockModel = new Company { Id = "Company1" };
+            mockRepo.Setup(x => x.Context.Get("Company1")).Returns(Task.FromResult(mockModel));
 
             var controller = new CompaniesController(mockRepo.Object);
             var actionResult = await controller.Get("Company1");
-            var model = ((OkObjectResult) actionResult).Value as Company;
 
-            Assert.IsType<OkObjectResult>(actionResult);
-            Assert.Equal("Company1", model.Id);
+            var actionResultObj = Assert.IsType<OkObjectResult>(actionResult);
+            Assert.NotNull(actionResultObj);
+            var model = Assert.IsType<Company>(actionResultObj.Value);
+            Assert.NotNull(model.Id);
+            Assert.Equal<string>("Company1", model.Id);
         }
 
         [Fact]
-        public async Task Index_GetsAnNonExistingCompany()
+        public async Task Read_ReturnsNotFoundErrorWhenAsksAnNonExistingCompany()
         {
             var mockRepo = new Mock<ICompanyRepository>();
             mockRepo.Setup(x => x.Context.Get("Company1")).Returns(Task.FromResult(new Company {Id = "Company1"}));
@@ -63,31 +70,24 @@ namespace Gameboard_Tests.Api
             Assert.IsType<NotFoundObjectResult>(actionResult);
         }
 
-        //    var mockRepo = new Mock<ICompanyRepository>();
-        //{
-        //public async Task Index_UpdateAValidCompany()
+        [Fact]
+        public async Task Update_ReturnsTheUpdatedCompany()
+        {
+            var mockRepo = new Mock<ICompanyRepository>();
+            var updateModel = new Company { Id = "Company1", Name="Company #1" };
+            var viewModel = new CompanyModel { Id = "Company1" };
 
-        //[Fact]
+            mockRepo.Setup(x => x.Context.Get("Company1")).Returns(Task.FromResult(updateModel));
+            mockRepo.Setup(x => x.Context.Update(viewModel)).Returns(Task.FromResult(updateModel));
 
-        //    var controller = new CompaniesController(mockRepo.Object);
-        //    var model = (CompanyModel) new Company {Name = "Company1"} ;
-        //    IActionResult actionResult = await controller.Post(model);
-        //    var newModel = ((OkObjectResult)actionResult).Value as Company;
+            var controller = new CompaniesController(mockRepo.Object);
+            var actionResult = await controller.Put("Company1", viewModel);
 
-        //    Assert.IsType<OkObjectResult>(actionResult);
-        //    Assert.Equal(model.Name, newModel.Name);
-        //}
-
-        //[Fact]
-        //public async Task Index_UpdateAnInvalidCompany()
-        //{
-        //    var mockRepo = new Mock<ICompanyRepository>();
-
-        //    var controller = new CompaniesController(mockRepo.Object);
-        //    var model = (CompanyModel) new Company { Name = "Fake"} ;
-        //    IActionResult actionResult = await controller.Post(model);
-
-        //    Assert.IsType<BadRequestResult>(actionResult);
-        //}
+            var actionResultObj = Assert.IsType<OkObjectResult>(actionResult);
+            Assert.NotNull(actionResultObj);
+            var updatedModel = Assert.IsType<Company>(actionResultObj.Value);
+            Assert.NotNull(updateModel.Name);
+            Assert.Equal<string>((string) updateModel.Name, updatedModel.Name);
+        }
     }
 }
