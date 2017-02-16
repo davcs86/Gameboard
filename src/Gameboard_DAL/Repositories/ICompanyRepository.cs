@@ -4,6 +4,6 @@ namespace Gameboard_DAL.Repositories
 {
     public interface ICompanyRepository
     {
-        BaseRepository<Company, Company> Context { get; }
+        BaseRepository<Company, Company, ICompany> Context { get; }
     }
 }

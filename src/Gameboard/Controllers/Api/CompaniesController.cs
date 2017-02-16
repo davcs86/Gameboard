@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Gameboard.MetaModels;
 using Microsoft.AspNetCore.Mvc;
@@ -41,33 +38,11 @@ namespace Gameboard.Controllers.Api
             return Ok(company);
         }
 
-        //// GET: api/companies/populate
-        //[HttpGet("Populate")]
-        //public async Task<IActionResult> Populate()
-        //{
-        //    //if (!(await _companyRepository.Context.GetAll()).Any())
-        //    //{
-        //    await _companyRepository.Context.Create(new CompanyModel()
-        //    {
-        //        Name = "Company 1"
-        //    });
-        //    await _companyRepository.Context.Create(new CompanyModel()
-        //    {
-        //        Name = "Company 2"
-        //    });
-        //    //}
-        //    return Ok("Populated");
-        //}
-
         // POST api/companies
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody]CompanyModel company)
+        public async Task<IActionResult> Post([FromBody] CompanyModel company)
         {
-            // force model validation
-            ModelState.Clear();
-            TryValidateModel(company);
-
-            if (!ModelState.IsValid)
+            if (null == company || !ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
@@ -77,18 +52,13 @@ namespace Gameboard.Controllers.Api
 
         // PUT api/companies/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> Put(string id, [FromBody]CompanyModel company)
+        public async Task<IActionResult> Put(string id, [FromBody] CompanyModel company)
         {
             if (null == await _companyRepository.Context.Get(id))
             {
                 return NotFound(id);
             }
-
-            // force model validation
-            ModelState.Clear();
-            TryValidateModel(company);
-
-            if (!ModelState.IsValid)
+            if (null == company || !ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }

@@ -10,7 +10,7 @@ using NoDb;
 
 namespace Gameboard_DAL.Repositories
 {
-    public class BaseRepository<T, TU> where T : class, IBaseItem where TU: IBaseItem, new()
+    public class BaseRepository<T, TU, TV> where T : class, IBaseItem where TU: IBaseItem, new() where TV: IBaseItem
     {
         protected readonly IBasicCommands<T> Commands;
         protected readonly HttpContext Context;
@@ -53,7 +53,7 @@ namespace Gameboard_DAL.Repositories
             return allItems.FirstOrDefault(p => p.Id == itemId);
         }
 
-        public async Task<T> Create(TU item)
+        public virtual async Task<T> Create(TV item)
         {
             item.Id = null;
             item.CreationTime = null;
@@ -64,7 +64,7 @@ namespace Gameboard_DAL.Repositories
             return await Get(newItem.Id);
         }
 
-        public async Task<T> Update(TU item)
+        public virtual async Task<T> Update(TV item)
         {
             item.LastModified = null;
             var updatedItem = new TU();
@@ -73,7 +73,7 @@ namespace Gameboard_DAL.Repositories
             return await Get(updatedItem.Id);
         }
 
-        public async Task<bool> Delete(string itemId)
+        public virtual async Task<bool> Delete(string itemId)
         {
             var item = await Query.FetchAsync(Settings.ProjectId, itemId, CancellationToken.None);
 
