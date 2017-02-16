@@ -6,14 +6,19 @@ namespace Gameboard_DAL.Repositories.Models
     {
         public DateTime? LastModified { get; set; }
 
-        public void FromInterface(IBaseItem item)
+        public void FromInterface(ICompany item)
         {
-            var company = item as ICompany;
+            var company = item;
             if (company == null) return;
             Id = company.Id ?? Guid.NewGuid().ToString();
             CreationTime = company.CreationTime ?? DateTime.UtcNow;
             LastModified = company.LastModified ?? DateTime.UtcNow;
             Name = company.Name;
+        }
+
+        public void FromInterface(IBaseItem item)
+        {
+            FromInterface(item as ICompany);
         }
 
         public string Id { get; set; }

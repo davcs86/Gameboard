@@ -14,9 +14,9 @@ namespace Gameboard_DAL.Repositories
             IBasicCommands<Product> commands, 
             IHttpContextAccessor contextAccessor = null) 
         {
-            Context = new BaseRepository<Product, Product>(settings, query, commands, contextAccessor);
+            Context = new BaseRepository<Product, Product, IProduct>(settings, query, commands, contextAccessor);
         }
         
-        public BaseRepository<Product, Product> Context { get; }
+        public BaseRepository<Product, Product, IProduct> Context { get; }
     }
 }

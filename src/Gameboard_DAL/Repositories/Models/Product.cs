@@ -7,7 +7,12 @@ namespace Gameboard_DAL.Repositories.Models
     {
         public void FromInterface(IBaseItem item)
         {
-            var product = item as IProduct;
+            FromInterface(item as IProduct);
+        }
+
+        public void FromInterface(IProduct item)
+        {
+            var product = item;
             if (product == null) return;
             Id = product.Id ?? Guid.NewGuid().ToString();
             CreationTime = product.CreationTime ?? DateTime.UtcNow;

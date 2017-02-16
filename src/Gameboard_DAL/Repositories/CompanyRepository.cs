@@ -22,9 +22,9 @@ namespace Gameboard_DAL.Repositories
             IBasicCommands<Company> commands, 
             IHttpContextAccessor contextAccessor = null)
         {
-            Context = new BaseRepository<Company, Company>(settings, query, commands, contextAccessor);
+            Context = new BaseRepository<Company, Company, ICompany>(settings, query, commands, contextAccessor);
         }
 
-        public BaseRepository<Company, Company> Context { get; }
+        public BaseRepository<Company, Company, ICompany> Context { get; }
     }
 }
