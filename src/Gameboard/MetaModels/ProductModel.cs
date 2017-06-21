@@ -18,9 +18,9 @@ namespace Gameboard.MetaModels
         [StringLength(50, MinimumLength = 5, ErrorMessage = "Name can have between 5 and 50 characters, inclusive.")]
         public string Name { get; set; }
 
-        //Description, Yes, Max length 100
+        //Description, Yes, Max length 500
         [DisplayName("Description")]
-        [StringLength(500, ErrorMessage = "Description cannot be larger than 500 characters.")]
+        [StringLength(500, ErrorMessage = "Description cannot be longer than 500 characters.")]
         public string Description { get; set; }
 
         [DisplayName("Age restriction")]
@@ -28,11 +28,12 @@ namespace Gameboard.MetaModels
         //AgeRestriction, Yes, 0 to 100
         public int AgeRestriction { get; set; }
 
-        [Required(ErrorMessage = "Company is required.")]
+        [DisplayName("Company")]
+        [StringLength(36, MinimumLength = 1, ErrorMessage = "Please, select a company.")]
         public string CompanyId { get; set; }
 
         [DisplayName("Price")]
-        [Range(1, 1000, ErrorMessage = "Price must be between 1 to 1000 years, inclusive.")]
+        [Range(1, 1000, ErrorMessage = "Price must be between $ 1.00 and $ 1000.00, inclusive.")]
         public decimal Price { get; set; }
 
         public void FromInterface(IBaseItem item)

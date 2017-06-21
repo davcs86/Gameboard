@@ -9,8 +9,10 @@ namespace Microsoft.Extensions.DependencyInjection
     {
         public static IServiceCollection AddDALServices(this IServiceCollection services)
         {
+            // Initialize JSON DB
             services.AddNoDb<Company>();
             services.AddNoDb<Product>();
+            // Initialize repositories
             services.TryAddScoped<ICompanyRepository, CompanyRepository>();
             services.TryAddScoped<IProductRepository, ProductRepository>();
 

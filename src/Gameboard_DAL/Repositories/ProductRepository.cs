@@ -11,12 +11,15 @@ namespace Gameboard_DAL.Repositories
         public ProductRepository(
             IOptions<DALSettings> settings, 
             IBasicQueries<Product> query, 
-            IBasicCommands<Product> commands, 
-            IHttpContextAccessor contextAccessor = null) 
+            IBasicCommands<Product> commands,
+            ICompanyRepository companyRepository,
+            IHttpContextAccessor contextAccessor = null
+            ) 
         {
             Context = new BaseRepository<Product, Product, IProduct>(settings, query, commands, contextAccessor);
         }
         
         public BaseRepository<Product, Product, IProduct> Context { get; }
+
     }
 }

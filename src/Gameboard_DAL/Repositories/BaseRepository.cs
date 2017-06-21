@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -10,12 +11,25 @@ using NoDb;
 
 namespace Gameboard_DAL.Repositories
 {
+    public class EntityDeletedEventArgs : EventArgs
+    {
+        public EntityDeletedEventArgs(string entityId)
+        {
+            EntityId = entityId;
+        }
+        public string EntityId { get; }
+    }
+    public delegate void EntityDeletedEventHandler(object sender, EntityDeletedEventArgs e);
+
     public class BaseRepository<T, TU, TV> where T : class, IBaseItem where TU: IBaseItem, new() where TV: IBaseItem
     {
         protected readonly IBasicCommands<T> Commands;
         protected readonly HttpContext Context;
         protected readonly IBasicQueries<T> Query;
         protected readonly DALSettings Settings;
+        public event EntityDeletedEventHandler OnEntityDeleted;
+
+        protected delegate void OnDeleteHandler(object sender, string e);
 
         /// <summary>
         /// Just for mocking, shouldn't be used in real-world context.
@@ -42,15 +56,12 @@ namespace Gameboard_DAL.Repositories
         public async Task<List<T>> GetAll()
         {
             var l = await Query.GetAllAsync(Settings.ProjectId, CancellationToken).ConfigureAwait(false);
-            var list = l.ToList();
-
-            return list;
+            return l.ToList();
         }
 
         public virtual async Task<T> Get(string itemId)
         {
-            var allItems = await GetAll().ConfigureAwait(false);
-            return allItems.FirstOrDefault(p => p.Id == itemId);
+            return await Query.FetchAsync(Settings.ProjectId, itemId, CancellationToken);
         }
 
         public virtual async Task<T> Create(TV item)
@@ -73,17 +84,29 @@ namespace Gameboard_DAL.Repositories
             return await Get(updatedItem.Id);
         }
 
+        protected virtual void EntityDeleted(EntityDeletedEventArgs e)
+        {
+            OnEntityDeleted?.Invoke(this, e);//Raise the event
+        }
+
         public virtual async Task<bool> Delete(string itemId)
         {
-            var item = await Query.FetchAsync(Settings.ProjectId, itemId, CancellationToken.None);
+            var item = await Get(itemId);
 
             if (item == null) return false;
 
-            var items = await GetAll().ConfigureAwait(false);
-            await
-                Commands.DeleteAsync(Settings.ProjectId, itemId, CancellationToken)
-                    .ConfigureAwait(false);
-            return items.Remove(item);
+            try
+            {
+                await Commands.DeleteAsync(Settings.ProjectId, itemId, CancellationToken).ConfigureAwait(false);
+                EntityDeletedEventArgs e = new EntityDeletedEventArgs(itemId);
+                EntityDeleted(e);
+                return true;
+            }
+            catch (Exception)
+            {
+                //
+            }
+            return false;
         }
     }
 }

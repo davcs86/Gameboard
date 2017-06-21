@@ -1,10 +1,13 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
 namespace Gameboard_DAL.Repositories.Models
 {
     public class Product: IProduct
     {
+        private static ICompanyRepository _companyRepository;
+
         public void FromInterface(IBaseItem item)
         {
             FromInterface(item as IProduct);
@@ -24,13 +27,16 @@ namespace Gameboard_DAL.Repositories.Models
             Price = product.Price;
         }
 
-        public async Task<Product> LoadCompany(ICompanyRepository companyRepository)
+        // lazy loading company
+        private Company _company;
+
+        public Company Company
         {
-            if (!string.IsNullOrWhiteSpace(CompanyId))
+            get
             {
-                Company = await companyRepository.Context.Get(CompanyId);
+                _company = _company ?? _companyRepository.Context.Get(CompanyId).Result;
+                return _company;
             }
-            return this;
         }
 
         public string Id { get; set; }
@@ -38,7 +44,7 @@ namespace Gameboard_DAL.Repositories.Models
         public string Description { get; set; }
         public int AgeRestriction { get; set; }
         public string CompanyId { get; set; }
-        public Company Company { get; set; }
+        
         public decimal Price { get; set; }
         public DateTime? CreationTime { get; set; }
         public DateTime? LastModified { get; set; }

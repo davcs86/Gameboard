@@ -1,9 +1,9 @@
 ﻿<!DOCTYPE html>
-<html>
+<html data-ng-controller="rootController as rootCtrl">
 <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Gameboard by @@davcs86</title>
+    <title>{{rootCtrl.sectionTitle}} < {{rootCtrl.pageTitle}} | Gameboard by @@davcs86</title>
     <environment names="Development">
         <link rel="stylesheet" href="~/css/app.css"/>
     </environment>
@@ -11,7 +11,7 @@
         <link rel="stylesheet" href="~/css/app.min.css" asp-append-version="true"/>
     </environment>
 </head>
-<body data-ng-controller="rootController as rootCtrl">
+<body>
 <div class="navbar navbar-inverse navbar-fixed-top">
     <div class="container">
         <div class="navbar-header">
