@@ -1,21 +1,48 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using Gameboard_DAL.Repositories;
-using Gameboard_DAL.Repositories.Models;
+using Gameboard_DAL.Entities;
+using Gameboard_DAL.Utils;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Options;
+using NoDb;
 
 namespace Gameboard_DAL
 {
-    public class DBContext
+    public class DbContext
     {
-        public BaseRepository Companies { get; }
-        public BaseRepository Products { get; }
+        public DbRepository<Company> Companies { get; set; }
+        public DbRepository<Product> Products { get; }
 
-        public DBContext(IOptions<DALSettings> settings, IBasicQueries<Company> query, IBasicCommands<Company> commands, IHttpContextAccessor contextAccessor = null)
+        public DbContext(IOptions<DALSettings> settings,
+            IBasicQueries<Company> companyQueries,
+            IBasicQueries<Product> productQueries,
+            IBasicCommands<Company> companyCommands,
+            IBasicCommands<Product> productCommands,
+            IHttpContextAccessor contextAccessor = null)
         {
-            Companies = new BaseRepository<Company, Company, ICompany>(settings, query, commands, contextAccessor);
-            Products = new BaseRepository<Product, Product, IProduct>(settings, query, commands, contextAccessor);
+            Companies = new DbRepository<Company>(settings, companyQueries, companyCommands, contextAccessor);
+            Products = new DbRepository<Product>(settings, productQueries, productCommands, contextAccessor);
+
+            // register cascade deletion
+            Companies.OnEntityDeleted += Companies_OnEntityDeleted;
+            // load related entities
+            Products.OnEntityRetrieved += Products_OnEntityRetrieved; 
         }
+
+        private void Products_OnEntityRetrieved(object sender, EntityRetrievedEventArgs<Product> entityRetrievedEventArgs)
+        {
+            entityRetrievedEventArgs.EntityInstance.Company = Companies.Get(entityRetrievedEventArgs.EntityInstance.CompanyId).Result;
+        }
+
+        //#region Cascade deletion
+        private async void Companies_OnEntityDeleted(object sender, EntityDeletedEventArgs e)
+        {
+            var productList = await Products.GetAll();
+            foreach (var product in productList.Where(d => d.CompanyId.Equals(e.EntityId)))
+            {
+                await Products.Delete(product.Id);
+            }
+        }
+        //#endregion
     }
 }

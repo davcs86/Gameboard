@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Gameboard.MetaModels;
+using Gameboard_DAL;
+using Gameboard_DAL.Entities;
 using Microsoft.AspNetCore.Mvc;
-using Gameboard_DAL.Repositories;
-using Gameboard_DAL.Repositories.Models;
 
 // For more information on enabling Web API for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -15,24 +15,21 @@ namespace Gameboard.Controllers.Api
     [Route("api/[controller]")]
     public class ProductsController : Controller
     {
-        private readonly ICompanyRepository _companyRepository;
-        private readonly IProductRepository _productRepository;
+        private readonly DbContext _dbContext;
 
         public ProductsController(
-            ICompanyRepository companyRepository,
-            IProductRepository productRepository
+            DbContext dbContext
             )
         {
-            _companyRepository = companyRepository;
-            _productRepository = productRepository;
+            _dbContext = dbContext;
         }
 
         // GET: api/products
         [HttpGet]
         public async Task<IEnumerable<Product>> Get()
         {
-            var productList = await _productRepository.Context.GetAll();
-            productList.ForEach(async d => await d.LoadCompany(_companyRepository));
+            var productList = await _dbContext.Products.GetAll();
+            //productList.ForEach(async d => await d.LoadCompany(_companyRepository));
             return productList;
         }
 
@@ -40,12 +37,12 @@ namespace Gameboard.Controllers.Api
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(string id)
         {
-            var product = await _productRepository.Context.Get(id);
+            var product = await _dbContext.Products.Get(id);
             if (null == product)
             {
                 return NotFound(id);
             }
-            await product.LoadCompany(_companyRepository);
+            //await product.LoadCompany(_companyRepository);
             return Ok(product);
         }
 
@@ -57,7 +54,7 @@ namespace Gameboard.Controllers.Api
             {
                 return BadRequest(ModelState);
             }
-            var newProduct = await _productRepository.Context.Create(product);
+            var newProduct = await _dbContext.Products.Create(product);
             return Ok(newProduct);
         }
 
@@ -65,7 +62,7 @@ namespace Gameboard.Controllers.Api
         [HttpPut("{id}")]
         public async Task<IActionResult> Put(string id, [FromBody]ProductModel product)
         {
-            if (null == await _productRepository.Context.Get(id))
+            if (null == await _dbContext.Products.Get(id))
             {
                 return NotFound(id);
             }
@@ -75,18 +72,18 @@ namespace Gameboard.Controllers.Api
                 return BadRequest(ModelState);
             }
             product.Id = id;
-            return Ok(await _productRepository.Context.Update(product));
+            return Ok(await _dbContext.Products.Update(product));
         }
 
         // DELETE api/products/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(string id)
         {
-            if (null == await _productRepository.Context.Get(id))
+            if (null == await _dbContext.Products.Get(id))
             {
                 return NotFound(id);
             }
-            return Ok(await _productRepository.Context.Delete(id));
+            return Ok(await _dbContext.Products.Delete(id));
         }
     }
 }

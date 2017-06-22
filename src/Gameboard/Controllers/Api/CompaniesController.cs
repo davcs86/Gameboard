@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Gameboard.MetaModels;
+using Gameboard_DAL;
 using Microsoft.AspNetCore.Mvc;
-using Gameboard_DAL.Repositories;
-using Gameboard_DAL.Repositories.Models;
+using Gameboard_DAL.Entities;
 
 // For more information on enabling Web API for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -12,25 +12,25 @@ namespace Gameboard.Controllers.Api
     [Route("api/[controller]")]
     public class CompaniesController : Controller
     {
-        private readonly ICompanyRepository _companyRepository;
+        private readonly DbContext _dbContext;
 
-        public CompaniesController(ICompanyRepository companyRepository)
+        public CompaniesController(DbContext dbContext)
         {
-            _companyRepository = companyRepository;
+            _dbContext = dbContext;
         }
 
         // GET: api/companies
         [HttpGet]
         public async Task<IEnumerable<Company>> Get()
         {
-            return await _companyRepository.Context.GetAll();
+            return await _dbContext.Companies.GetAll();
         }
 
         // GET api/companies/5
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(string id)
         {
-            var company = await _companyRepository.Context.Get(id);
+            var company = await _dbContext.Companies.Get(id);
             if (null == company)
             {
                 return NotFound(id);
@@ -46,7 +46,7 @@ namespace Gameboard.Controllers.Api
             {
                 return BadRequest(ModelState);
             }
-            var newCompany = await _companyRepository.Context.Create(company);
+            var newCompany = await _dbContext.Companies.Create(company);
             return Ok(newCompany);
         }
 
@@ -54,7 +54,7 @@ namespace Gameboard.Controllers.Api
         [HttpPut("{id}")]
         public async Task<IActionResult> Put(string id, [FromBody] CompanyModel company)
         {
-            if (null == await _companyRepository.Context.Get(id))
+            if (null == await _dbContext.Companies.Get(id))
             {
                 return NotFound(id);
             }
@@ -63,18 +63,18 @@ namespace Gameboard.Controllers.Api
                 return BadRequest(ModelState);
             }
             company.Id = id;
-            return Ok(await _companyRepository.Context.Update(company));
+            return Ok(await _dbContext.Companies.Update(company));
         }
 
         // DELETE api/companies/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(string id)
         {
-            if (null == await _companyRepository.Context.Get(id))
+            if (null == await _dbContext.Companies.Get(id))
             {
                 return NotFound(id);
             }
-            return Ok(await _companyRepository.Context.Delete(id));
+            return Ok(await _dbContext.Companies.Delete(id));
         }
     }
 }

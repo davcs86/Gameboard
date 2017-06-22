@@ -1,5 +1,5 @@
-﻿using Gameboard_DAL.Repositories;
-using Gameboard_DAL.Repositories.Models;
+﻿using Gameboard_DAL;
+using Gameboard_DAL.Entities;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using NoDb;
 
@@ -12,9 +12,8 @@ namespace Microsoft.Extensions.DependencyInjection
             // Initialize JSON DB
             services.AddNoDb<Company>();
             services.AddNoDb<Product>();
-            // Initialize repositories
-            services.TryAddScoped<ICompanyRepository, CompanyRepository>();
-            services.TryAddScoped<IProductRepository, ProductRepository>();
+            // Initialize DBContext
+            services.TryAddScoped<DbContext>();
 
             return services;
         }
