@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Gameboard_DAL.Repositories.Models
+namespace Gameboard_DAL.Entities
 {
     public interface IBaseItem
     {
@@ -12,7 +12,5 @@ namespace Gameboard_DAL.Repositories.Models
         DateTime? CreationTime { get; set; }
         // last modification datetime
         DateTime? LastModified { get; set; }
-
-        void FromInterface(IBaseItem item);
     }
 }
