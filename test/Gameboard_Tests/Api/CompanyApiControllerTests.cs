@@ -1,11 +1,11 @@
 ﻿using System.Threading.Tasks;
 using Gameboard.Controllers.Api;
 using Gameboard.MetaModels;
+using Gameboard_DAL;
+using Gameboard_DAL.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using Xunit;
-using Gameboard_DAL.Repositories;
-using Gameboard_DAL.Repositories.Models;
 
 namespace Gameboard_Tests.Api
 {
@@ -14,7 +14,7 @@ namespace Gameboard_Tests.Api
         [Fact]
         public async Task Create_ReturnsBadRequestErrorWhenModelHasErrors()
         {
-            var mockRepo = new Mock<ICompanyRepository>();
+            var mockRepo = new Mock<DbContext>();
             var controller = new CompaniesController(mockRepo.Object);
             controller.ModelState.AddModelError("", "Error");
 
@@ -26,10 +26,10 @@ namespace Gameboard_Tests.Api
         [Fact]
         public async Task Create_CreatesAValidCompany()
         {
-            var mockRepo = new Mock<ICompanyRepository>();
+            var mockRepo = new Mock<DbContext>();
             var model = new CompanyModel {Name = "Company1"};
             var mockModel = new Company {Name = "Company1"};
-            mockRepo.Setup(x => x.Context.Create(model)).Returns(Task.FromResult(mockModel));
+            mockRepo.Setup(x => x.Companies.Create(model)).Returns(Task.FromResult(mockModel));
 
             var controller = new CompaniesController(mockRepo.Object);
             var actionResult = await controller.Post(model);
@@ -44,9 +44,9 @@ namespace Gameboard_Tests.Api
         [Fact]
         public async Task Read_GetsAnExistingCompany()
         {
-            var mockRepo = new Mock<ICompanyRepository>();
+            var mockRepo = new Mock<DbContext>();
             var mockModel = new Company { Id = "Company1" };
-            mockRepo.Setup(x => x.Context.Get("Company1")).Returns(Task.FromResult(mockModel));
+            mockRepo.Setup(x => x.Companies.Get("Company1")).Returns(Task.FromResult(mockModel));
 
             var controller = new CompaniesController(mockRepo.Object);
             var actionResult = await controller.Get("Company1");
@@ -61,8 +61,8 @@ namespace Gameboard_Tests.Api
         [Fact]
         public async Task Read_ReturnsNotFoundErrorWhenAsksAnNonExistingCompany()
         {
-            var mockRepo = new Mock<ICompanyRepository>();
-            mockRepo.Setup(x => x.Context.Get("Company1")).Returns(Task.FromResult(new Company {Id = "Company1"}));
+            var mockRepo = new Mock<DbContext>();
+            mockRepo.Setup(x => x.Companies.Get("Company1")).Returns(Task.FromResult(new Company {Id = "Company1"}));
 
             var controller = new CompaniesController(mockRepo.Object);
             var actionResult = await controller.Get("Company2");
@@ -73,12 +73,12 @@ namespace Gameboard_Tests.Api
         [Fact]
         public async Task Update_ReturnsTheUpdatedCompany()
         {
-            var mockRepo = new Mock<ICompanyRepository>();
+            var mockRepo = new Mock<DbContext>();
             var updateModel = new Company { Id = "Company1", Name="Company #1" };
             var viewModel = new CompanyModel { Id = "Company1" };
 
-            mockRepo.Setup(x => x.Context.Get("Company1")).Returns(Task.FromResult(updateModel));
-            mockRepo.Setup(x => x.Context.Update(viewModel)).Returns(Task.FromResult(updateModel));
+            mockRepo.Setup(x => x.Companies.Get("Company1")).Returns(Task.FromResult(updateModel));
+            mockRepo.Setup(x => x.Companies.Update(viewModel)).Returns(Task.FromResult(updateModel));
 
             var controller = new CompaniesController(mockRepo.Object);
             var actionResult = await controller.Put("Company1", viewModel);

@@ -34,26 +34,35 @@ class ProductsNewController {
                 },
                 "price": {
                     "title": "Price",
-                    "type": "number"
+                    "type": "number",
+                    "minimum": 1,
+                    "maximum": 1000,
+                    "validationMessage": "Price must be between $ 1.00 and $ 1000.00, inclusive."
                 },
                 "companyId": {
                     "title": "Company",
-                    "type": "string"
+                    "type": "string",
+                    "validationMessage": "Please, select a company."
                 },
                 "ageRestriction": {
                     "title": "Maximum age",
-                    "type": "number"
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 100,
+                    "validationMessage": "Age restriction must be between 0 to 100 years, inclusive."
                 },
                 "description": {
                     "title": "Description",
                     "type": "string",
-                    "maxLength": 500
+                    "maxLength": 500,
+                    "validationMessage": "Description cannot be longer than 500 characters."
                 }
             },
             "required": [
                 "name",
                 "price",
-                "companyId"
+                "companyId",
+                "ageRestriction"
             ]
         };
 
@@ -62,20 +71,20 @@ class ProductsNewController {
                 "key": "name"
             }, {
                 "key": "price",
-                validationMessage: {
+                /*validationMessage: {
                     'wrongPrice': "Price must be between $ 1.00 and $ 1000.00, inclusive."
                 },
-                onChange: vm.$scope.validatePrice
+                onChange: vm.$scope.validatePrice*/
             }, {
                 "key": "companyId",
                 type: "select",
                 titleMap: []
             }, {
                 "key": "ageRestriction",
-                validationMessage: {
+                /*validationMessage: {
                     'wrongAge': "Maximum age must be between 0 and 100, inclusive."
                 },
-                onChange: vm.$scope.validateAge
+                onChange: vm.$scope.validateAge*/
             }, {
                 "key": "description",
                 "type": "textarea"
