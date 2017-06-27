@@ -11,8 +11,8 @@ namespace Gameboard_Tests.Api
 {
     public class CompanyApiControllerTests
     {
-        [Fact(Skip="Outdated")]
-        public async Task Create_ReturnsBadRequestErrorWhenModelHasErrors()
+        [Fact]
+        public async Task Create_WhenModelHasErrors_ReturnsBadRequestError()
         {
             var mockRepo = new Mock<DbContext>();
             var controller = new CompaniesController(mockRepo.Object);
@@ -23,7 +23,7 @@ namespace Gameboard_Tests.Api
             Assert.IsType<BadRequestObjectResult>(actionResult);
         }
 
-        [Fact(Skip="Outdated")]
+        [Fact]
         public async Task Create_CreatesAValidCompany()
         {
             var mockRepo = new Mock<DbContext>();
@@ -41,7 +41,7 @@ namespace Gameboard_Tests.Api
             Assert.Equal<string>(model.Name, newModel.Name);
         }
 
-        [Fact(Skip="Outdated")]
+        [Fact]
         public async Task Read_GetsAnExistingCompany()
         {
             var mockRepo = new Mock<DbContext>();
@@ -58,8 +58,8 @@ namespace Gameboard_Tests.Api
             Assert.Equal<string>("Company1", model.Id);
         }
 
-        [Fact(Skip="Outdated")]
-        public async Task Read_ReturnsNotFoundErrorWhenAsksAnNonExistingCompany()
+        [Fact]
+        public async Task Read_WhenAsksAnNonExistingCompany_ReturnsNotFoundError()
         {
             var mockRepo = new Mock<DbContext>();
             mockRepo.Setup(x => x.Companies.Get("Company1")).Returns(Task.FromResult(new Company {Id = "Company1"}));
@@ -70,24 +70,53 @@ namespace Gameboard_Tests.Api
             Assert.IsType<NotFoundObjectResult>(actionResult);
         }
 
-        [Fact(Skip="Outdated")]
+        [Fact]
         public async Task Update_ReturnsTheUpdatedCompany()
         {
             var mockRepo = new Mock<DbContext>();
-            var updateModel = new Company { Id = "Company1", Name="Company #1" };
-            var viewModel = new CompanyModel { Id = "Company1" };
+            var oldModel = new Company { Id = "Company1", Name="Company #1" };
+            var updateModel = new Company { Id = "Company1", Name="Company #2" };
+            var mockModel = new CompanyModel { Id = "Company1" };
 
-            mockRepo.Setup(x => x.Companies.Get("Company1")).Returns(Task.FromResult(updateModel));
-            mockRepo.Setup(x => x.Companies.Update(viewModel)).Returns(Task.FromResult(updateModel));
+            mockRepo.Setup(x => x.Companies.Get("Company1")).Returns(Task.FromResult(oldModel));
+            mockRepo.Setup(x => x.Companies.Update(mockModel)).Returns(Task.FromResult(updateModel));
 
             var controller = new CompaniesController(mockRepo.Object);
-            var actionResult = await controller.Put("Company1", viewModel);
+            var actionResult = await controller.Put("Company1", mockModel);
 
             var actionResultObj = Assert.IsType<OkObjectResult>(actionResult);
             Assert.NotNull(actionResultObj);
+
             var updatedModel = Assert.IsType<Company>(actionResultObj.Value);
-            Assert.NotNull(updateModel.Name);
-            Assert.Equal<string>((string) updateModel.Name, updatedModel.Name);
+            Assert.NotNull(updatedModel.Name);
+            Assert.Equal<string>(updateModel.Name, updatedModel.Name);
+        }
+
+        [Fact]
+        public async Task Update_WhenModelHasErrors_ReturnsBadRequestError()
+        {
+            var mockRepo = new Mock<DbContext>();
+            var mockModel = new Company { Id = "Company1" };
+            mockRepo.Setup(x => x.Companies.Get("Company1")).Returns(Task.FromResult(mockModel));
+
+            var controller = new CompaniesController(mockRepo.Object);
+            controller.ModelState.AddModelError("", "Error");
+            var actionResult = await controller.Put("Company1", new CompanyModel());
+
+            Assert.IsType<BadRequestObjectResult>(actionResult);
+        }
+
+        [Fact]
+        public async Task Update_WhenModelIsNull_ReturnsBadRequestError()
+        {
+            var mockRepo = new Mock<DbContext>();
+            var mockModel = new Company { Id = "Company1" };
+            mockRepo.Setup(x => x.Companies.Get("Company1")).Returns(Task.FromResult(mockModel));
+
+            var controller = new CompaniesController(mockRepo.Object);
+            var actionResult = await controller.Put("Company1", null);
+
+            Assert.IsType<BadRequestObjectResult>(actionResult);
         }
     }
 }

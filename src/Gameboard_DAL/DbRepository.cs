@@ -46,7 +46,7 @@ namespace Gameboard_DAL
         protected delegate void OnRetrieveHandler(object sender, T e);
 
         /// <summary>
-        /// Just for mocking, shouldn't be used in real-world context.
+        /// Just for mocking purpose, shouldn't be used in real-world context.
         /// </summary>
         public DbRepository()
         {

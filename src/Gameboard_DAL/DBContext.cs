@@ -10,8 +10,17 @@ namespace Gameboard_DAL
 {
     public class DbContext
     {
-        public DbRepository<Company> Companies { get; set; }
-        public DbRepository<Product> Products { get; }
+        public virtual DbRepository<Company> Companies { get; set; }
+        public virtual DbRepository<Product> Products { get; }
+
+
+        /// <summary>
+        /// Just for mocking purpose, shouldn't be used in real-world context.
+        /// </summary>
+        public DbContext()
+        {
+
+        }
 
         public DbContext(IOptions<DALSettings> settings,
             IBasicQueries<Company> companyQueries,
