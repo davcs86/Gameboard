@@ -240,8 +240,10 @@ ModelManifest.xml
 
 # FAKE - F# Make
 .fake/
-src/Gameboard/nodb_storage/*
-src/Gameboard/wwwroot/css/*
-src/Gameboard/wwwroot/js/*
-src/Gameboard/wwwroot/lib/*
+/**/wwwroot/lib/**/*
+src/Gameboard./
+src/Gameboard/wwwroot/js/
+src/Gameboard/wwwroot/css/
+src/Gameboard/nodb_storage/
 src/Gameboard/Properties/PublishProfiles/
+**/*.orig
