@@ -6,6 +6,7 @@ import UiRouter from "angular-ui-router";
 import RootSection from "../sections/root";
 import CompaniesSection from "../sections/companies";
 import ProductsSection from "../sections/products";
+import LoadingInterceptor from "./setup.interceptor";
 import Config from "./setup.config";
 
 export default Angular.module(
@@ -32,5 +33,6 @@ export default Angular.module(
             ProductsSection
         ]
     )
+    .service(LoadingInterceptor.name, LoadingInterceptor)
     .config(Config)
     .constant("$apiUrl", "/api");

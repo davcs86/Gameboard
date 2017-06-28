@@ -18,6 +18,7 @@
 /// <reference path="../app/sections/root/root.module.js" />
 /// <reference path="../app/setup/setup.bootstrap.js" />
 /// <reference path="../app/setup/setup.config.js" />
+/// <reference path="../app/setup/setup.interceptor.js" />
 /// <reference path="../app/setup/setup.module.js" />
 /// <reference path="../app/setup/setup.vendor.js" />
 /// <reference path="../gulpfile.js" />

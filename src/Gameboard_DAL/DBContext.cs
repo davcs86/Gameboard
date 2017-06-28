@@ -40,7 +40,11 @@ namespace Gameboard_DAL
 
         private void Products_OnEntityRetrieved(object sender, EntityRetrievedEventArgs<Product> entityRetrievedEventArgs)
         {
-            entityRetrievedEventArgs.EntityInstance.Company = Companies.Get(entityRetrievedEventArgs.EntityInstance.CompanyId).Result;
+            if (entityRetrievedEventArgs.EntityInstance != null)
+            {
+                entityRetrievedEventArgs.EntityInstance.Company =
+                    Companies.Get(entityRetrievedEventArgs.EntityInstance.CompanyId).Result;
+            }
         }
 
         //#region Cascade deletion

@@ -15,7 +15,7 @@ class CompaniesListController {
         });
 
         $scope.deleteItem = function(row) {
-            SweetAlert.confirm("Your will not be able to recover this company!",
+            SweetAlert.confirm("Your will not be able to recover this company! (and also the company's products will be deleted)",
                 {
                     title: "Are you sure?",
                     //type: "warning",
